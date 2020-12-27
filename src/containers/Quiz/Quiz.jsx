@@ -34,8 +34,8 @@ class Quiz extends Component {
             }
         ]
     }
+
     onAnswerClickHandler = (answerID) => {
-        console.log('123a')
         if (this.state.answerState) {
             const key = Object.keys(this.state.answerState)[0]
             if (this.state.answerState[key] === 'success') {
@@ -51,7 +51,6 @@ class Quiz extends Component {
             if (!results[question.id]) {
                 results[question.id] = 'success'
             }
-
             this.setState({
                 answerState: {[answerID]: 'success'},
                 results
@@ -80,12 +79,10 @@ class Quiz extends Component {
     }
 
     isQuizFinished() {
-        console.log('123f')
         return this.state.activeQuestion + 1 === this.state.quiz.length
     }
 
     retryHandler = () => {
-        console.log('123')
         this.setState({activeQuestion: 0, answerState: null, isFinished: false, results: {}})
     }
 
