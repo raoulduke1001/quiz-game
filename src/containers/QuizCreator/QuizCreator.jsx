@@ -8,7 +8,8 @@ import Auxiliary from "../../hoc/Auxiliary";
 
 function createOptionControl(number) {
     return createControl({
-        label: `Вариант ${number}`, errorMessage: 'Значение не может быть пустым',
+        label: `Вариант ${number}`,
+        errorMessage: 'Значение не может быть пустым',
         id: number
     }, {
         required: true
@@ -44,10 +45,44 @@ export default class QuizCreator extends Component {
 
     addQuestionHandler = (event) => {
         event.preventDefault()
+        const quiz = this.state.quiz.concat()
+        const index = quiz.length + 1
 
+        const {question, option1, option2, option3, option4} = this.state.formControls
+
+
+        const questionItem = {
+            question: question.value,
+            id: index,
+            rightAnswerID: this.state.rightAnswerID,
+            answers: [{
+                text: option1.value,
+                id: option1.id,
+            }, {
+                text: option2.value,
+                id: option2.id,
+            }, {
+                text: option3.value,
+                id: option3.id,
+            }, {
+                text: option4.value,
+                id: option4.id,
+            }
+            ]
+        }
+
+        quiz.push(questionItem)
+
+        this.setState({
+            quiz, rightAnswerID: 1,
+            formControls: createFormControls(),
+            isFormValid: false
+        })
     }
 
-    createQuizHandler = () => {
+    createQuizHandler = (event) => {
+        event.preventDefault()
+
 
     }
 
