@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import classes from './Auth.module.css';
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
+import axios from "axios";
 
 
 function validateEmail(email) {
@@ -46,7 +47,8 @@ export default class Auth extends Component {
     loginHandler = () => {
     }
 
-    regHandler = () => {
+    registerHandler = async () => {
+        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]')
     }
 
     submitHandler = (event) => {
