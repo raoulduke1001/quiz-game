@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import classes from './Auth.module.css';
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
-import axios from "axios";
+import {connect} from "react-redux";
+import {auth} from "../../store/actions/auth";
 
 
 function validateEmail(email) {
@@ -11,7 +12,7 @@ function validateEmail(email) {
 }
 
 
-export default class Auth extends Component {
+class Auth extends Component {
 
     state = {
         isFormValid: false,
@@ -44,33 +45,26 @@ export default class Auth extends Component {
 
     }
 
-    loginHandler = async () => {
-        const authData = {
-            email: this.state.formControls.email.value,
-            password: this.state.formControls.password.value,
-            returnSecureToken: true
-        }
-        try {
-            const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDvtRMCcy575mcSAz3W6IrlqPlEW5IqffM', authData)
-            console.log(response.data)
-        } catch (e) {
-            console.log(e)
-        }
+    loginHandler = () => {
+        this.props.auth(this.state.formControls.email.value, this.state.formControls.password.value, true)
+
+        // try {
+        //     const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDvtRMCcy575mcSAz3W6IrlqPlEW5IqffM', authData)
+        //     console.log(response.data)
+        // } catch (e) {
+        //     console.log(e)
+        // }
 
     }
 
-    registerHandler = async () => {
-        const authData = {
-            email: this.state.formControls.email.value,
-            password: this.state.formControls.password.value,
-            returnSecureToken: true
-        }
-        try {
-            const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDvtRMCcy575mcSAz3W6IrlqPlEW5IqffM', authData)
-            console.log(response.data)
-        } catch (e) {
-            console.log(e)
-        }
+    registerHandler = () => {
+        this.props.auth(this.state.formControls.email.value, this.state.formControls.password.value, false)
+        // try {
+        //     const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDvtRMCcy575mcSAz3W6IrlqPlEW5IqffM', authData)
+        //     console.log(response.data)
+        // } catch (e) {
+        //     console.log(e)
+        // }
 
     }
 
@@ -157,3 +151,13 @@ export default class Auth extends Component {
         )
     }
 }
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
+    }
+
+}
+
+export default connect(null, mapDispatchToProps)(Auth)
